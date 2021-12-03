@@ -7,11 +7,6 @@ const fs = require('fs/promises')
 // Initialize express app
 const app = express()
 
-app.use((req, res, next) => {
-  console.log('Host: ', req.hostname)
-  console.log('Path: ', req.path)
-})
-
 app.get('/', (req, res) => {
   return res.status(200).json({ hello: 'world' })
 })
