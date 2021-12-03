@@ -7,7 +7,7 @@ networks:
 services:
   images_internal:
     networks:
-      - traefik
+      - traefik_default
     build:
       context: ./
       dockerfile: Dockerfile
