@@ -13,11 +13,19 @@ app.use((req, res, next) => {
   } else {
     return res.status(401).json({ code: 401, message: 'Unauthorized' })
   }
-  next()
 })
 
 app.get('/', (req, res) => {
   return res.status(200).json({ hello: 'world' })
+})
+
+app.get('/endpoints', async (req, res) => {
+  const sfwCategories = (await fs.readdir('./images')).filter(c => c !== 'nsfw').map(c => `${process.env.SUB_PATH}/${c}`)
+  const nsfwCategories = (await fs.readdir('./images/nsfw/')).map(c => `${process.env.SUB_PATH}/nsfw/${c}`)
+  return res.json({
+    sfw: sfwCategories,
+    nsfw: nsfwCategories
+  })
 })
 
 app.get('/:category', async (req, res) => {
@@ -26,9 +34,9 @@ app.get('/:category', async (req, res) => {
   if (dirExists) {
     const files = await fs.readdir(dirName)
     const randomNumber = Math.round(Math.random() * await files.length)
-    return res.status(200).json({ code: 200, url: `/${req.params.category}/${files[randomNumber]}` })
+    return res.status(200).json({ code: 200, url: `${process.env.SUB_PATH}/${req.params.category}/${files[randomNumber]}` })
   } else {
-    res.status(404).json({ code: 404, message: "Category doesn't exist" })
+    return res.status(404).json({ code: 404, message: "Category doesn't exist" })
   }
 })
 
