@@ -15,6 +15,7 @@ services:
       - ./:/data
     labels:
       - traefik.enable=true
+      - traefik.http.middlewares.shiro-internal.stripprefix.prefixes=/images
       - traefik.http.routers.shiro-internal.rule=Host(`internal.dbot.dev`) && Path(`/images`)
       - traefik.http.routers.shiro-internal.entrypoints=web
       - traefik.http.services.shiro-internal.loadbalancer.server.port=5400
