@@ -1,7 +1,13 @@
 version: '3'
 
+networks:
+  traefik:
+    external: true
+
 services:
   images_internal:
+    networks:
+      - traefik
     build:
       context: ./
       dockerfile: Dockerfile
