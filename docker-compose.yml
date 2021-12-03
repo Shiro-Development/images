@@ -14,6 +14,8 @@ services:
     volumes:
       - ./:/data
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.shiro-intenal.rule=Host(`internal.dbot.dev`)"
-      - "traefik.http.routers.shiro-intenal.entrypoints=web"
+      - traefik.enable=true
+      - traefik.http.routers.shiro-intenal.rule=Host(`internal.dbot.dev`)
+      - traefik.http.routers.shiro-intenal.rule=Path(`images`)
+      - traefik.http.routers.shiro-intenal.entrypoints=web
+      - traefik.http.services.shiro-intenal.loadbalancer.server.port=5400
