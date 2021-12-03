@@ -8,7 +8,11 @@ const fs = require('fs/promises')
 const app = express()
 
 app.use((req, res, next) => {
-  // Handle auth (Not implemented yet)
+  if(req.headers?.authorization === process.env.AUTH_TOKEN) {
+    next()
+  } else {
+    return res.status(401).json({ code: 401, message: 'Unauthorized' })
+  }
   next()
 })
 
@@ -41,4 +45,4 @@ app.get('/:category/:file', async (req, res) => {
   }
 })
 
-app.listen(5400)
+app.listen(process.env.PORT)
