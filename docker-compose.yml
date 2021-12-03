@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  images_internal:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/data
