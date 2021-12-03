@@ -15,6 +15,6 @@ services:
       - ./:/data
     labels:
       - traefik.enable=true
-      - traefik.http.routers.shiro-intenal.rule=Host(`internal.dbot.dev`)
-      - traefik.http.routers.shiro-intenal.entrypoints=web
-      - traefik.http.services.shiro-intenal.loadbalancer.server.port=5400
+      - traefik.http.routers.shiro-internal.rule=Host(`internal.dbot.dev`)
+      - traefik.http.routers.shiro-internal.entrypoints=web
+      - traefik.http.services.shiro-internal.loadbalancer.server.port=5400
