@@ -9,5 +9,5 @@ services:
       - ./:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.shiro-intenal.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.shiro-intenal.rule=Host(`internal.dbot.dev`)"
       - "traefik.http.routers.shiro-intenal.entrypoints=web"
