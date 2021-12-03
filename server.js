@@ -8,7 +8,7 @@ const fs = require('fs/promises')
 const app = express()
 
 app.use((req, res, next) => {
-  if(req.headers?.authorization === process.env.AUTH_TOKEN) {
+  if (req.headers?.authorization === process.env.AUTH_TOKEN) {
     next()
   } else {
     return res.status(401).json({ code: 401, message: 'Unauthorized' })
