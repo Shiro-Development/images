@@ -1,8 +1,8 @@
 version: '3'
 
 networks:
-  backend:
-    external: true
+#  backend:
+#    external: true
   traefik_default:
     external: true
 
@@ -10,7 +10,7 @@ services:
   images_internal:
     networks:
       - traefik_default
-      - backend
+#      - backend
     build:
       context: ./
       dockerfile: Dockerfile
