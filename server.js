@@ -60,6 +60,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/nsfw/:category', async (req, res) => {
+  if (!req.params.category) return res.status(404).send('Not found')
   const dirName = `./images/nsfw/${req.params.category}`
   const dirExists = await fs.stat(dirName).catch(() => undefined)
   if (dirExists) {
@@ -72,7 +73,7 @@ app.get('/nsfw/:category', async (req, res) => {
 })
 
 app.get('/:category', async (req, res) => {
-  console.log(req.params.category)
+  if (req.params.category === 'nsfw') return res.status(404).send('Not found')
   const dirName = `./images/${req.params.category}`
   const dirExists = await fs.stat(dirName).catch(() => undefined)
   if (dirExists) {
