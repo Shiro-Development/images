@@ -16,7 +16,7 @@ app.get('/health', (req, res) => {
 })
 
 app.get('/:category/:file', async (req, res, next) => {
-  if (req.category === 'nsfw') return next()
+  if (req.params.category === 'nsfw') return next()
   const fileName = `/images/${req.params.category}/${req.params.file}`
   const fileExists = await fs.stat(`./${fileName}`).catch(() => undefined)
   if (fileExists) {
