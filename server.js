@@ -16,7 +16,7 @@ app.get('/health', (req, res) => {
 })
 
 app.get('/:category/:file', async (req, res, next) => {
-  if (req.params.file) return next()
+  if (req.category === 'nsfw') return next()
   const fileName = `/images/${req.params.category}/${req.params.file}`
   const fileExists = await fs.stat(`./${fileName}`).catch(() => undefined)
   if (fileExists) {
@@ -59,6 +59,19 @@ app.use((req, res, next) => {
   }
 })
 
+app.get('/:category', async (req, res, next) => {
+  if (req.params.category === 'nsfw') return next()
+  const dirName = `./images/${req.params.category}`
+  const dirExists = await fs.stat(dirName).catch(() => undefined)
+  if (dirExists) {
+    const files = await fs.readdir(dirName)
+    const randomNumber = Math.round(Math.random() * await files.length)
+    return res.status(200).json({ code: 200, url: `${process.env.SUB_PATH}/${req.params.category}/${files[randomNumber]}` })
+  } else {
+    return res.status(404).json({ code: 404, message: "Category doesn't exist" })
+  }
+})
+
 app.get('/nsfw/:category', async (req, res) => {
   if (!req.params.category) return res.status(404).send('Not found')
   const dirName = `./images/nsfw/${req.params.category}`
@@ -67,19 +80,6 @@ app.get('/nsfw/:category', async (req, res) => {
     const files = await fs.readdir(dirName)
     const randomNumber = Math.round(Math.random() * await files.length)
     return res.status(200).json({ code: 200, url: `${process.env.SUB_PATH}/nsfw/${req.params.category}/${files[randomNumber]}` })
-  } else {
-    return res.status(404).json({ code: 404, message: "Category doesn't exist" })
-  }
-})
-
-app.get('/:category', async (req, res) => {
-  if (req.params.category === 'nsfw') return res.status(404).send('Not found')
-  const dirName = `./images/${req.params.category}`
-  const dirExists = await fs.stat(dirName).catch(() => undefined)
-  if (dirExists) {
-    const files = await fs.readdir(dirName)
-    const randomNumber = Math.round(Math.random() * await files.length)
-    return res.status(200).json({ code: 200, url: `${process.env.SUB_PATH}/${req.params.category}/${files[randomNumber]}` })
   } else {
     return res.status(404).json({ code: 404, message: "Category doesn't exist" })
   }
