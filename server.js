@@ -65,7 +65,7 @@ app.get('/:category', async (req, res, next) => {
   const dirExists = await fs.stat(dirName).catch(() => undefined)
   if (dirExists) {
     const files = await fs.readdir(dirName)
-    const randomNumber = Math.round(Math.random() * await files.length)
+    const randomNumber = Math.round(Math.random() * await files.length - 1)
     return res.status(200).json({ code: 200, url: `${process.env.SUB_PATH}/${req.params.category}/${files[randomNumber]}` })
   } else {
     return res.status(404).json({ code: 404, message: "Category doesn't exist" })
@@ -78,7 +78,7 @@ app.get('/nsfw/:category', async (req, res) => {
   const dirExists = await fs.stat(dirName).catch(() => undefined)
   if (dirExists) {
     const files = await fs.readdir(dirName)
-    const randomNumber = Math.round(Math.random() * await files.length)
+    const randomNumber = Math.round(Math.random() * await files.length - 1)
     return res.status(200).json({ code: 200, url: `${process.env.SUB_PATH}/nsfw/${req.params.category}/${files[randomNumber]}` })
   } else {
     return res.status(404).json({ code: 404, message: "Category doesn't exist" })
