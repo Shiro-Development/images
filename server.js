@@ -7,6 +7,11 @@ const fs = require('fs/promises')
 // Initialize express app
 const app = express()
 
+app.use((req, res, next) => {
+  console.log(req.path)
+  return next()
+})
+
 app.get('/', (req, res) => {
   return res.status(200).json({ hello: 'world' })
 })
@@ -15,7 +20,7 @@ app.get('/health', (req, res) => {
   return res.status(200).send('Service OK')
 })
 
-app.get('/:category/:file', async (req, res, next) => {
+app.get('/images/:category/:file', async (req, res, next) => {
   if (req.params.category === 'nsfw') return next()
   const fileName = `/images/${req.params.category}/${req.params.file}`
   const fileExists = await fs.stat(`./${fileName}`).catch(() => undefined)
@@ -29,7 +34,7 @@ app.get('/:category/:file', async (req, res, next) => {
   }
 })
 
-app.get('/nsfw/:category/:file', async (req, res) => {
+app.get('/images/nsfw/:category/:file', async (req, res) => {
   const fileName = `/images/nsfw/${req.params.category}/${req.params.file}`
   const fileExists = await fs.stat(`./${fileName}`).catch(() => undefined)
   if (fileExists) {
